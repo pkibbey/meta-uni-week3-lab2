@@ -4,15 +4,18 @@ import codepath from "../../assets/codepath.svg"
 import avatar from "../../assets/avatar.png"
 import "./Navbar.css"
 
-export default function Navbar() {
+export default function Navbar({ filterInputValue , setFilterInputValue}) {
   return (
     <nav className="Navbar">
-      {/* <Link className="logo" to="/">
+      <Link className="logo" to="/">
         <img src={codepath} alt="logo" />
-      </Link> */}
+      </Link>
 
       <div className="search">
-        <FilterInput />
+        <FilterInput
+          value={filterInputValue}
+          handleChange={(e) => setFilterInputValue(e.target.value)}
+        />
       </div>
 
       <div className="user">

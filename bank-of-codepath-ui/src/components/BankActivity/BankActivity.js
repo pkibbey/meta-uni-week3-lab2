@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { formatDate, formatAmount } from "../../utils/format"
 import "./BankActivity.css"
 
@@ -13,7 +14,7 @@ export default function BankActivity({ transactions = [], transfers = [] }) {
           <span className="col x15">Date</span>
         </div>
         {transactions.map((transaction) => (
-          <div className="table-row" key={transaction.id}>
+          <Link to={`/transaction/${transaction.id}`} className="table-row" key={transaction.id}>
             <span className="col x4">
               <Arrow amount={transaction.amount} />
               {transaction.description}
@@ -21,7 +22,7 @@ export default function BankActivity({ transactions = [], transfers = [] }) {
             <span className="col x2">{transaction.category}</span>
             <span className="col x2">{formatAmount(transaction.amount)}</span>
             <span className="col x15">{formatDate(transaction.postedAt)}</span>
-          </div>
+          </Link>
         ))}
       </div>
 
@@ -35,10 +36,10 @@ export default function BankActivity({ transactions = [], transfers = [] }) {
         </div>
         {transfers.map((transfer) => (
           <div className="table-row" key={transfer.id}>
-            <span className="col x4">
+            <Link to={`/transfer/${transfer.id}`} className="col x4">
               <Arrow amount={transfer.amount} />
               {transfer.memo}
-            </span>
+            </Link>
             <span className="col x2">{transfer.recipientEmail}</span>
             <span className="col x2">{formatAmount(transfer.amount)}</span>
             <span className="col x15">{formatDate(transfer.postedAt)}</span>

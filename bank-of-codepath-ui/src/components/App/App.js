@@ -18,8 +18,13 @@ export default function App() {
   useEffect(() => {
     const fetchData = async () => {
       setIsFetching(true)
-      const result = await axios.get(`http://localhost:3001/bank/transactions`)
-      setTransactions(result.data.transactions)
+      
+      const transactionResult = await axios.get(`http://localhost:3001/bank/transactions`)
+      setTransactions(transactionResult.data.transactions)
+
+      const transferResult = await axios.get(`http://localhost:3001/bank/transfers`)
+      setTransfers(transferResult.data.transfers)
+
       setIsFetching(false)
     }
     fetchData();
@@ -27,16 +32,27 @@ export default function App() {
 
   return (
     <div className="App">
-      <Navbar />
+      <Navbar
+        filterInputValue={filterInputValue}
+        setFilterInputValue={setFilterInputValue}
+      />
       <Routes>
-        <Route path="/" element={<Home />}>
-          <Route index element={<Home />} />
-        </Route>
+        <Route
+          path="/"
+          element={<Home
+            transfers={transfers}
+            transactions={transactions}
+            setTransactions={setTransactions}
+            setError={setError}
+            setIsLoading={setIsFetching}
+            filterInputValue={filterInputValue}
+          />} 
+        />
         <Route
           path="/transaction/:transactionId"
-          element={<TransactionDetail
-            transactions={transactions}
+          element={<TransactionDetail 
             isLoading={isFetching}
+            setIsLoading={setIsFetching}
             error={error}
           />}
         />
