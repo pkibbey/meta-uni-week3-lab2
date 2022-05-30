@@ -18,7 +18,8 @@ export default function App() {
   useEffect(() => {
     const fetchData = async () => {
       setIsFetching(true)
-      
+      setError('');
+
       const transactionResult = await axios.get(`http://localhost:3001/bank/transactions`)
       setTransactions(transactionResult.data.transactions)
 
@@ -36,6 +37,7 @@ export default function App() {
         filterInputValue={filterInputValue}
         setFilterInputValue={setFilterInputValue}
       />
+      {!!error && <div id="error">{error}</div>}
       <Routes>
         <Route
           path="/"

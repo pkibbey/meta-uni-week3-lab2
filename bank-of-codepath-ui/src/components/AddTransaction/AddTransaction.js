@@ -8,9 +8,11 @@ export default function AddTransaction({ setIsLoading, setError, transactionCoun
   const [amount, setAmount] = useState('')
 
   async function handleOnSubmit(event) {
-    if (!description || ~category || !amount) {
+    if (!description || !category || !amount) {
       setError('All fields must contain a value')
       return false;
+    } else {
+      setError('')
     }
 
     setIsLoading(true)
