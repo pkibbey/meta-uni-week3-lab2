@@ -38,6 +38,20 @@ router.get("/transactions/:transactionId", async (req, res, next) => {
   }
 })
 
+// update single transaction
+router.put("/transactions/:transactionId", async (req, res, next) => {
+  try {
+    const transactionId = req.params.transactionId
+    const transaction = await Bank.updateTransactionPaidState(transactionId)
+    if (!transaction) {
+      throw new NotFoundError("Transaction not found")
+    }
+    res.status(200).json({ transaction })
+  } catch (err) {
+    next(err)
+  }
+})
+
 // list all transfers
 router.get("/transfers", async (req, res, next) => {
   try {

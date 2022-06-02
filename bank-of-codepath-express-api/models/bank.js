@@ -14,6 +14,12 @@ class Bank {
     return transfers
   }
 
+  static async updateTransactionPaidState(transactionId) {
+    // set a single transaction paid state to true
+    const transaction = storage.setTransactionPaid(transactionId, true)
+    return transaction
+  }
+
   static async fetchTransactionById(transactionId) {
     // fetch a single transaction
     const transaction = storage

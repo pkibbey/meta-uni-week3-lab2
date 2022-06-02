@@ -15,19 +15,20 @@ export default function App() {
   const [transactions, setTransactions] = useState([])
   const [transfers, setTransfers] = useState([])
 
+  const fetchData = async () => {
+    setIsFetching(true)
+    setError('');
+
+    const transactionResult = await axios.get(`http://localhost:3001/bank/transactions`)
+    setTransactions(transactionResult.data.transactions)
+
+    const transferResult = await axios.get(`http://localhost:3001/bank/transfers`)
+    setTransfers(transferResult.data.transfers)
+
+    setIsFetching(false)
+  }
+
   useEffect(() => {
-    const fetchData = async () => {
-      setIsFetching(true)
-      setError('');
-
-      const transactionResult = await axios.get(`http://localhost:3001/bank/transactions`)
-      setTransactions(transactionResult.data.transactions)
-
-      const transferResult = await axios.get(`http://localhost:3001/bank/transfers`)
-      setTransfers(transferResult.data.transfers)
-
-      setIsFetching(false)
-    }
     fetchData();
   }, [])
 
@@ -48,6 +49,7 @@ export default function App() {
             setError={setError}
             setIsLoading={setIsFetching}
             filterInputValue={filterInputValue}
+            fetchData={fetchData}
           />} 
         />
         <Route
@@ -56,6 +58,7 @@ export default function App() {
             isLoading={isFetching}
             setIsLoading={setIsFetching}
             error={error}
+            fetchData={fetchData}
           />}
         />
       </Routes>      

@@ -2,7 +2,7 @@ import AddTransaction from "../AddTransaction/AddTransaction"
 import BankActivity from "../BankActivity/BankActivity"
 import "./Home.css"
 
-export default function Home({ setIsLoading, filterInputValue, transfers, transactions, setTransactions, setError }) {
+export default function Home({ fetchData, setIsLoading, filterInputValue, transfers, transactions, setTransactions, setError }) {
   const value = filterInputValue.toLowerCase()
 
   const filteredTransactions = filterInputValue ? transactions.filter(t => {
@@ -15,7 +15,7 @@ export default function Home({ setIsLoading, filterInputValue, transfers, transa
   return (
     <div className="Home">
       <AddTransaction setIsLoading={setIsLoading} setError={setError} setTransactions={setTransactions} transactionCount={transactions.length} />
-      <BankActivity transfers={transfers} transactions={filteredTransactions} />
+      <BankActivity transfers={transfers} transactions={filteredTransactions} fetchData={fetchData} />
     </div>
   )
 }

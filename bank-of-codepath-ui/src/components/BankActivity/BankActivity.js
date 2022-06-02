@@ -1,8 +1,15 @@
 import { Link } from "react-router-dom"
 import { formatDate, formatAmount } from "../../utils/format"
 import "./BankActivity.css"
+import axios from "axios";
 
-export default function BankActivity({ transactions = [], transfers = [] }) {
+
+export default function BankActivity({ fetchData, transactions = [], transfers = [] }) {
+  async function payTransaction(transactionId) {
+    await axios.put(`http://localhost:3001/bank/transactions/${transactionId}`)
+    fetchData();
+  }
+
   return (
     <div className="BankActivity">
       <h2>Transactions</h2>
@@ -22,6 +29,27 @@ export default function BankActivity({ transactions = [], transfers = [] }) {
             <span className="col x2">{transaction.category}</span>
             <span className="col x2">{formatAmount(transaction.amount)}</span>
             <span className="col x15">{formatDate(transaction.postedAt)}</span>
+            <span className="col x2">
+              {transaction.amount < 0 && <button
+                style={{
+                  backgroundColor: transaction.paid ? 'darkorange' : 'greenyellow',
+                  color: transaction.paid ? 'white' : 'inherit',
+                  cursor: transaction.paid ? 'default' : 'pointer',
+                  alignSelf: 'center',
+                  padding: '8px 16px',
+                  borderRadius: '5px',
+                  width: '100%'
+                }}
+                disabled={!!transaction.paid}
+                onClick={(e) => {
+                  if (!transaction.paid) {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    payTransaction(transaction.id)  
+                  }
+                }}
+              >{transaction.paid ? 'Paid' : 'Pay'}</button>}
+            </span>
           </Link>
         ))}
       </div>

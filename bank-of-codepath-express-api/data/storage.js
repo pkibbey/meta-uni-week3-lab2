@@ -16,6 +16,12 @@ class Storage {
   get(key) {
     return this.db.get(key)
   }
+
+  setTransactionPaid(id, value) {
+    return this.db.get('transactions').find(item => {
+      return `${item.id}` === `${id}`;
+    }).assign({ paid: value }).write()
+  }
 }
 
 module.exports = {
